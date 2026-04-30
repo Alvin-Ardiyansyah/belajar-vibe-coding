@@ -2,9 +2,12 @@ import { drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
 import * as schema from "./schema";
 
-const connectionString = process.env.DATABASE_URL || "mysql://root:password@localhost:3306/database";
-
-const poolConnection = mysql.createPool(connectionString);
+const poolConnection = mysql.createPool({
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "password",
+  database: process.env.DB_NAME || "belajar_vibe_coding",
+});
 
 export const db = drizzle(poolConnection, { schema, mode: "default" });
 export * from "./schema";
